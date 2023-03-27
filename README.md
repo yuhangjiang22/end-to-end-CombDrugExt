@@ -16,7 +16,7 @@ poetry install
 cd ..
 ```
 ## Training
-Use the `allennlp train` command with the provided `.jsonnet` config file to train the model
+Use the `allennlp train` command with `.jsonnet` config file we provid to train the model
 ```
 train_data_path="n-ary/train.txt" \
 valid_data_path="n-ary/valid.txt" \
