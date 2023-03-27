@@ -11,7 +11,6 @@ python preprocess.py
 ## Installation for Seq2rel
 ```
 curl -sSL https://install.python-poetry.org | python3 -
-git clone https://github.com/JohnGiorgi/seq2rel.git
 cd seq2rel
 poetry install
 ```
