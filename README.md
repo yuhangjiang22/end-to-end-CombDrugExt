@@ -8,7 +8,7 @@ git clone https://github.com/allenai/drug-combo-extraction.git
 ```
 python preprocess.py
 ```
-## Installation for Seq2rel
+## Installing Seq2rel using Poetry
 ```
 curl -sSL https://install.python-poetry.org | python3 -
 cd seq2rel
