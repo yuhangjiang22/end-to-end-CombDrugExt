@@ -4,7 +4,7 @@ The corresponding code for our paper: End-to-End n-ary Relation Extraction for C
 ```
 git clone https://github.com/allenai/drug-combo-extraction.git
 ```
-Please see paper [A Dataset for N-ary Relation Extraction of Drug Combinations](https://arxiv.org/abs/2205.02289) for more information about CombDrugExt dataset.
+Please see the paper [A Dataset for N-ary Relation Extraction of Drug Combinations](https://arxiv.org/abs/2205.02289) for more information about CombDrugExt dataset.
 ### Preprocess dataset to our expected format
 ```
 python preprocess.py
