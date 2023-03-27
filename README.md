@@ -1,6 +1,7 @@
 # End-to-End n-ary Relation Extraction for Combination Drug Therapies
 The corresponding code for our paper: End-to-End n-ary Relation Extraction for Combination Drug Therapies
-## Get access to CombDrugExt dataset
+## Get access dataset
+Please see paper [A Dataset for N-ary Relation Extraction of Drug Combinations](https://arxiv.org/abs/2205.02289) for more information about CombDrugExt dataset.
 ```
 git clone https://github.com/allenai/drug-combo-extraction.git
 ```
