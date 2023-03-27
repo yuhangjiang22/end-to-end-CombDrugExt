@@ -5,8 +5,6 @@ import sys
 import argparse
 from sklearn.model_selection import train_test_split
 
-
-
 sys.path.extend(["..", "."])
 
 parser = argparse.ArgumentParser()
