@@ -203,6 +203,3 @@ if not args.ner and args.metric == 'any combination f1':
     print('Recall: ', R)
     print('Precision: ', P)
     print('F1: ', Fscore)
-
-
-
