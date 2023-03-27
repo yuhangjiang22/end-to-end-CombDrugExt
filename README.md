@@ -26,7 +26,7 @@ allennlp train "training-config-seq2rel/n-ary.jsonnet" \
     --include-package "seq2rel" 
 ```
 ## Evaluation
-Example for evaluation on `n-ary/test.txt` file with fine-tuned `model.tar.gz` of `positive combination f1` metric
+Example for evaluation on `n-ary/test.txt` file with fine-tuned model `model.tar.gz` of `positive combination f1` metric
 ```
 python evaluation.py\
           --model output/model.tar.gz\
