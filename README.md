@@ -1,5 +1,5 @@
 # End-to-End n-ary Relation Extraction for Combination Drug Therapies
-The corresponding code for our paper: End-to-End n-ary Relation Extraction for Combination Drug Therapies
+This is a code repository for our paper at IEEE ICHI 2023 titled: End-to-End n-ary Relation Extraction for Combination Drug Therapies. Please down the zipped file of this repo and follow the below instructions with the downloaded folder as the root directory. 
 ## Get access to the dataset
 ```
 git clone https://github.com/allenai/drug-combo-extraction.git
