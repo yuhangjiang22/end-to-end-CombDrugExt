@@ -64,7 +64,7 @@ train_sentences, valid_sentences, train_relations, valid_relations = train_test_
 if args.combine_train_vali:
     train_sentences = sentences
     train_relations = relations
-    
+# dump train
 lines = []
 for i in range(len(train_sentences)):
     line = train_sentences[i] + '\t' + train_relations[i] + '\n'
@@ -72,7 +72,7 @@ for i in range(len(train_sentences)):
 with open('n-ary/train.txt', 'w') as f:
     for line in lines:
         f.write(line)
-        
+# dump valid
 lines = []
 for i in range(len(valid_sentences)):
     line = valid_sentences[i] + '\t' + valid_relations[i] + '\n'
@@ -80,7 +80,7 @@ for i in range(len(valid_sentences)):
 with open('n-ary/valid.txt', 'w') as f:
     for line in lines:
         f.write(line)
-
+# dump test
 sentences, relations = preprocess(test_data_raw)
 lines = []
 for i in range(len(sentences)):
@@ -151,7 +151,7 @@ train_sentences, valid_sentences, train_relations, valid_relations = train_test_
 if args.combine_train_vali:
     train_sentences = sentences
     train_relations = relations
-    
+# dump train
 lines = []
 for i in range(len(train_sentences)):
     line = train_sentences[i] + '\t' + train_relations[i] + '\n'
@@ -159,7 +159,7 @@ for i in range(len(train_sentences)):
 with open('longer-context-n-ary/train.txt', 'w') as f:
     for line in lines:
         f.write(line)
-        
+# dump valid
 lines = []
 for i in range(len(valid_sentences)):
     line = valid_sentences[i] + '\t' + valid_relations[i] + '\n'
@@ -167,7 +167,7 @@ for i in range(len(valid_sentences)):
 with open('longer-context-n-ary/valid.txt', 'w') as f:
     for line in lines:
         f.write(line)
-
+# dump test
 sentences, relations = preprocess_longer_context(test_data_raw, window_size=args.window_size)
 lines = []
 for i in range(len(sentences)):
@@ -219,7 +219,7 @@ train_sentences, valid_sentences, train_relations, valid_relations = train_test_
 if args.combine_train_vali:
     train_sentences = sentences
     train_relations = relations
-    
+# dump train
 lines = []
 for i in range(len(train_sentences)):
     line = train_sentences[i] + '\t' + train_relations[i] + '\n'
@@ -227,7 +227,7 @@ for i in range(len(train_sentences)):
 with open('ner-n-ary/train.txt', 'w') as f:
     for line in lines:
         f.write(line)
-        
+# dump valid
 lines = []
 for i in range(len(valid_sentences)):
     line = valid_sentences[i] + '\t' + valid_relations[i] + '\n'
@@ -235,8 +235,7 @@ for i in range(len(valid_sentences)):
 with open('ner-n-ary/valid.txt', 'w') as f:
     for line in lines:
         f.write(line)
-
-
+# dump test
 sentences, relations = preprocess_with_ner(test_data_raw)
 lines = []
 for i in range(len(sentences)):
