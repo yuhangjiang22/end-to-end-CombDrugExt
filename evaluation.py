@@ -21,14 +21,16 @@ parser.add_argument('--metric', type=str, default=None,
 
 args = parser.parse_args()
 
-# load the seq2rel model
+# load trained seq2rel model
 model = args.model
 seq2rel = Seq2Rel(model)
 
-# do NER-evaluation
+# do NER-RE evaluation
 if args.ner:
     predictions=[]
     gold=[]
+    
+#   make predictions on trained model
     with open(cached_path(args.test_file), "r") as data_file:
         for line_num, line in enumerate(data_file):
             line = line.strip("\n")
@@ -39,7 +41,8 @@ if args.ner:
             predicted_relations = seq2rel(input_text)
             predicted_relations = [i.replace(' - ', '-') for i in predicted_relations]
             predictions.append(predicted_relations)
-
+            
+#   for evaluating NER and RE separately
     def split_string(string):
         data = {}
         substrings = string.split('@NER@')
@@ -50,10 +53,12 @@ if args.ner:
         data['REL'] = data['REL'].replace('@POS@', '@DRUG@ @POS@')
         data['REL'] = data['REL'].replace('@COMB@', '@DRUG@ @COMB@')
         return(data)
-
+      
+#   initialization
     true_positive_sum, pred_sum, true_sum = 0, 0, 0
     ner_true_positive_sum, ner_pred_sum, ner_true_sum = 0, 0, 0
-
+    
+#   counting positive_sum, pred_sum and true_sum
     for i in range(len(gold)):
         pre = predictions[i][0]
         gol = gold[i]
@@ -73,7 +78,6 @@ if args.ner:
         ner_true_positive_sum += counter
         ner_pred_sum += len(pre['NER'])
         ner_true_sum += len(gol['NER'])
-
         gold_annotations = util.extract_relations([gol['REL']], remove_duplicate_ents=True)
         pred_annotations = util.extract_relations([pre['REL']], remove_duplicate_ents=True)
         for pred_ann, gold_ann in zip(pred_annotations, gold_annotations):
@@ -91,7 +95,7 @@ if args.ner:
                 if args.metric == 'any combination f1':
                     gold_rels = gold_ann.get('POS', []) + gold_ann.get('COMB', [])
                     pred_rels = pred_ann.get('POS', []) + pred_ann.get('COMB', [])
-                # Convert to a set, as we don't care about duplicates or order.
+                # convert to a set, as we don't care about duplicates or order.
                 dedup_pred_rels = set(pred_rels)
                 dedup_gold_rels = set(gold_rels)
                 true_positive_sum += len(  # type: ignore
@@ -101,7 +105,7 @@ if args.ner:
 
     R = true_positive_sum/true_sum
     P = true_positive_sum/pred_sum
-    Fscore = 2*P*R/(P+R)
+    Fscore = 2 * P * R / (P + R)
 
     ner_R = ner_true_positive_sum / ner_true_sum
     ner_P = ner_true_positive_sum / ner_pred_sum
@@ -118,10 +122,11 @@ if args.ner:
 
 # do positive combination evaluation
 if not args.ner and args.metric == 'positive combination f1':
+#   initialization
     true_positive_sum, pred_sum, true_sum = 0, 0, 0
     predictions=[]
     gold=[]
-    errors=[]
+#   counting positive_sum, pred_sum and true_sum
     with open(cached_path('n-ary/test.txt'), "r") as data_file:
         for line_num, line in enumerate(data_file):
             line = line.strip("\n")
@@ -130,6 +135,7 @@ if not args.ner and args.metric == 'positive combination f1':
             gold.append(line_parts[1])
             gold_relations = [line_parts[1]]
             predicted_relations = seq2rel(input_text)
+            # remove unexpected spaces around '-'
             predicted_relations = [i.replace(' - ', '-') for i in predicted_relations]
             predictions.append(predicted_relations)
             gold_annotations = util.extract_relations(gold_relations, remove_duplicate_ents=True)
@@ -141,7 +147,7 @@ if not args.ner and args.metric == 'positive combination f1':
                 if gold_ann:
                     for rel_label, gold_rels in gold_ann.items():
                         pred_rels = pred_ann.get(rel_label, [])
-                        # Convert to a set, as we don't care about duplicates or order.
+                        # convert to a set, as we don't care about duplicates or order.
                         dedup_pred_rels = set(pred_rels)
                         dedup_gold_rels = set(gold_rels)
                         if rel_label == 'POS':
@@ -161,9 +167,11 @@ if not args.ner and args.metric == 'positive combination f1':
 
 # do any combination 3-way evaluation
 if not args.ner and args.metric == 'any combination f1':
+#   initialization
     true_positive_sum, pred_sum, true_sum = 0, 0, 0
     predictions=[]
     gold=[]
+#   counting positive_sum, pred_sum and true_sum
     with open(cached_path('n-ary-fixed-order/test.txt'), "r") as data_file:
         for line_num, line in enumerate(data_file):
             line = line.strip("\n")
@@ -172,7 +180,8 @@ if not args.ner and args.metric == 'any combination f1':
             gold.append(line_parts[1])
             gold_relations = [line_parts[1]]
             predicted_relations = seq2rel(input_text)
-            #predicted_relations = [i.replace(' - ', '-') for i in predicted_relations]
+            # remove unexpected spaces around '-'
+            predicted_relations = [i.replace(' - ', '-') for i in predicted_relations]
             predictions.append(predicted_relations)
             gold_annotations = util.extract_relations(gold_relations, remove_duplicate_ents=True)
             pred_annotations = util.extract_relations(predicted_relations, remove_duplicate_ents=True)
@@ -186,7 +195,7 @@ if not args.ner and args.metric == 'any combination f1':
                 if gold_ann:
                     gold_rels = gold_ann.get('POS', []) + gold_ann.get('COMB', [])
                     pred_rels = pred_ann.get('POS', []) + pred_ann.get('COMB', [])
-                    # Convert to a set, as we don't care about duplicates or order.
+                    # convert to a set, as we don't care about duplicates or order.
                     dedup_pred_rels = set(pred_rels)
                     dedup_gold_rels = set(gold_rels)
                     true_positive_sum += len(  # type: ignore
