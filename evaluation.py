@@ -21,12 +21,12 @@ parser.add_argument('--metric', type=str, default=None,
 
 args = parser.parse_args()
 
+# load the seq2rel model
 model = args.model
-
 seq2rel = Seq2Rel(model)
 
+# do NER-evaluation
 if args.ner:
-    #NER-evaluation
     predictions=[]
     gold=[]
     with open(cached_path(args.test_file), "r") as data_file:
@@ -116,9 +116,8 @@ if args.ner:
     print('Precision: ', P)
     print('F1: ', Fscore)
 
-
+# do positive combination evaluation
 if not args.ner and args.metric == 'positive combination f1':
-    #positive combination evaluation
     true_positive_sum, pred_sum, true_sum = 0, 0, 0
     predictions=[]
     gold=[]
@@ -160,8 +159,8 @@ if not args.ner and args.metric == 'positive combination f1':
     print('Precision: ', P)
     print('F1: ', Fscore)
 
+# do any combination 3-way evaluation
 if not args.ner and args.metric == 'any combination f1':
-    #any combination 3-way evaluation
     true_positive_sum, pred_sum, true_sum = 0, 0, 0
     predictions=[]
     gold=[]
