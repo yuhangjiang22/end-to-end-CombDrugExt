@@ -160,7 +160,7 @@ if not args.ner and args.metric == 'positive combination f1':
 
     R = true_positive_sum/true_sum
     P = true_positive_sum/pred_sum
-    Fscore = 2*P*R/(P+R)
+    Fscore = 2 * P * R / (P + R)
 
     print(args.metric + ':')
     print('Recall: ', R)
@@ -207,7 +207,7 @@ if not args.ner and args.metric == 'any combination f1':
 
     R = true_positive_sum/true_sum
     P = true_positive_sum/pred_sum
-    Fscore = 2*P*R/(P+R)
+    Fscore = 2 * P * R / (P + R)
 
     print(args.metric + ':')
     print('Recall: ', R)
