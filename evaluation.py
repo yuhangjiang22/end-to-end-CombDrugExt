@@ -58,7 +58,7 @@ if args.ner:
     true_positive_sum, pred_sum, true_sum = 0, 0, 0
     ner_true_positive_sum, ner_pred_sum, ner_true_sum = 0, 0, 0
     
-#   counting positive_sum, pred_sum and true_sum
+#   counting true_positive_sum, pred_sum and true_sum for NER
     for i in range(len(gold)):
         pre = predictions[i][0]
         gol = gold[i]
@@ -66,18 +66,20 @@ if args.ner:
         gol = split_string(gol)
         p = {}
         g = {}
-        for i in set(pre['NER']):
-            p[i] = pre['NER'].count(i)
-        for i in set(pre['NER']):
-            g[i] = gol['NER'].count(i)
-        counter = 0
-        for i in set(p.keys()).intersection(set(g.keys())):
-            counter += min(p[i], g[i])
-        pre_entities = set(pre['NER'])
-        gold_entities = set(gol['NER'])
-        ner_true_positive_sum += counter
+        for j in set(pre['NER']):
+            p[j] = pre['NER'].count(j)
+        for j in set(gol['NER']):
+            g[j] = gol['NER'].count(j)
+            
+        # find the intersection of predicted entities and gold entities
+        for k in set(p.keys()).intersection(set(g.keys())):
+            # count the smaller one as true_positive_sum
+            ner_true_positive_sum += min(p[k], g[k])
+
         ner_pred_sum += len(pre['NER'])
         ner_true_sum += len(gol['NER'])
+        
+        #   counting positive_sum, pred_sum and true_sum for RE
         gold_annotations = util.extract_relations([gol['REL']], remove_duplicate_ents=True)
         pred_annotations = util.extract_relations([pre['REL']], remove_duplicate_ents=True)
         for pred_ann, gold_ann in zip(pred_annotations, gold_annotations):
