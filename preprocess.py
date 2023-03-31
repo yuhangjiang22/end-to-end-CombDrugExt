@@ -1,3 +1,4 @@
+# running this file to create different kinds of preprocessed dataset
 import os
 os.chdir('drug-combo-extraction')
 import jsonlines
@@ -15,9 +16,11 @@ parser.add_argument('--combine_train_vali', type=bool, default=True,
 
 args = parser.parse_args()
 
+# loading raw data files
 training_data_raw = list(jsonlines.open('data/final_train_set.jsonl'))
 test_data_raw = list(jsonlines.open('data/final_test_set.jsonl'))
 
+# prepare generation target to the format of [drug1 @DRUG@ drug2 @DRUG@ @REL@]
 def preprocess(data_raw):
     sentences = []
     relations = []
@@ -36,9 +39,13 @@ def preprocess(data_raw):
             for rel in rels:
                 cls = rel['class']
                 if cls == 'NEG':
-                    cls = 'COMB'
-                # if cls == 'POS':
-                # cls = 'COMB'
+                    cls = 'COMB'           
+                    
+#                 if cls == 'POS':
+#                     cls = 'COMB'
+#                 if cls != 'POS':
+#                     cls = 'OTHER'
+
                 curr_spans = []
                 for i in rel['spans']:
                     curr_spans.append(spans[i])
@@ -51,6 +58,7 @@ def preprocess(data_raw):
 if not os.path.exists('n-ary'):
     os.mkdir('n-ary')
     
+# split train data file to training and validation
 sentences, relations = preprocess(training_data_raw)
 train_sentences, valid_sentences, train_relations, valid_relations = train_test_split(sentences, relations, test_size=0.1)
 if args.combine_train_vali:
@@ -85,7 +93,7 @@ with open('n-ary/test.txt', 'w') as f:
 
 from nltk.tokenize import sent_tokenize
 
-
+# prepare source text with longer context
 def preprocess_longer_context(data_raw, window_size=0):
     sentences = []
     relations = []
@@ -121,10 +129,12 @@ def preprocess_longer_context(data_raw, window_size=0):
                 cls = rel['class']
                 if cls == 'NEG':
                     cls = 'COMB'
-                '''
-                if cls != 'POS':
-                    cls = 'OTHER'
-                '''
+                
+#                 if cls == 'POS':
+#                     cls = 'COMB'
+#                 if cls != 'POS':
+#                     cls = 'OTHER'
+                
                 curr_spans = []
                 for i in rel['spans']:
                     curr_spans.append(spans[i])
@@ -166,7 +176,7 @@ with open('longer-context-n-ary/test.txt', 'w') as f:
     for line in lines:
         f.write(line)
 
-
+# prepare the target sequence with NER step
 def preprocess_with_ner(data_raw):
     sentences = []
     relations = []
