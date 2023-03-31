@@ -30,7 +30,7 @@ if args.ner:
     predictions=[]
     gold=[]
     
-    # make predictions on trained model
+    # make predictions
     with open(cached_path(args.test_file), "r") as data_file:
         for line_num, line in enumerate(data_file):
             line = line.strip("\n")
@@ -47,6 +47,7 @@ if args.ner:
         data = {}
         substrings = string.split('@NER@')
         data['NER'] = substrings[0].split(';')
+        # remove unexpected spaces around '-'
         data['NER'] = [i.replace(' - ', '-').lower() for i in data['NER']]
         data['NER'] = tuple([item.strip() for item in data['NER']])
         data['REL'] = substrings[1].replace(';','@DRUG@')
