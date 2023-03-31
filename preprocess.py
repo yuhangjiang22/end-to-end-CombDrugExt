@@ -90,7 +90,7 @@ with open('n-ary/test.txt', 'w') as f:
     for line in lines:
         f.write(line)
 
-
+# for splitting paragraph to sentences
 from nltk.tokenize import sent_tokenize
 
 # prepare source text with longer context
