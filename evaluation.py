@@ -111,7 +111,7 @@ if args.ner:
 
     ner_R = ner_true_positive_sum / ner_true_sum
     ner_P = ner_true_positive_sum / ner_pred_sum
-    ner_Fscore = 2 * P * R / (P + R)
+    ner_Fscore = 2 * ner_P * ner_R / (ner_P + ner_R)
 
     print('NER Recall: ', ner_R)
     print('NER Precision: ', ner_P)
