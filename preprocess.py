@@ -54,12 +54,12 @@ def preprocess(data_raw):
             sentences.append(sentence)
             relations.append(relation[:-1])
     return sentences, relations
-
+# make directory for n-ary dataset
 if not os.path.exists('n-ary'):
     os.mkdir('n-ary')
     
-# split train data file to training and validation
 sentences, relations = preprocess(training_data_raw)
+# split train data file to training and validation
 train_sentences, valid_sentences, train_relations, valid_relations = train_test_split(sentences, relations, test_size=0.1)
 if args.combine_train_vali:
     train_sentences = sentences
@@ -141,11 +141,12 @@ def preprocess_longer_context(data_raw, window_size=0):
                 relation = relation + ' @DRUG@ '.join(curr_spans) + ' @DRUG@ ' + f' @{cls}@ '
             relations.append(relation[:-1])
     return sentences, relations
-
+# make directory for longer context dataset
 if not os.path.exists('longer-context-n-ary'):
     os.mkdir('longer-context-n-ary')
     
 sentences, relations = preprocess_longer_context(training_data_raw, window_size=args.window_size)
+# split train data file to training and validation
 train_sentences, valid_sentences, train_relations, valid_relations = train_test_split(sentences, relations, test_size=0.1)
 if args.combine_train_vali:
     train_sentences = sentences
@@ -209,10 +210,11 @@ def preprocess_with_ner(data_raw):
                 relation = relation + ' ; '.join(curr_spans) + f' @{cls}@ '
             relations.append(relation[:-1])
     return (sentences, relations)
-
+# make directory for NER dataset
 if not os.path.exists('ner-n-ary'):
     os.mkdir('ner-n-ary')
 sentences, relations = preprocess_with_ner(training_data_raw)
+# split train data file to training and validation
 train_sentences, valid_sentences, train_relations, valid_relations = train_test_split(sentences, relations, test_size=0.1)
 if args.combine_train_vali:
     train_sentences = sentences
